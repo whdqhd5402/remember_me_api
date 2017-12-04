@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204064843) do
+ActiveRecord::Schema.define(version: 20171204102836) do
+
+  create_table "tokens", force: :cascade do |t|
+    t.text     "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "trips", force: :cascade do |t|
     t.string   "title"
@@ -19,6 +25,15 @@ ActiveRecord::Schema.define(version: 20171204064843) do
     t.datetime "end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",         default: "", null: false
+    t.string   "name",          default: "", null: false
+    t.string   "password",      default: "", null: false
+    t.integer  "sign_in_count", default: 0,  null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
 end
