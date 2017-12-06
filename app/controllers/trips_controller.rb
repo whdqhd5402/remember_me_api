@@ -4,7 +4,7 @@ class TripsController < ApplicationController
   # GET /trips
   def index
     # @trips = Trip.all
-    @trips = Trip.order("created_at DESC").page
+    @trips = Trip.order("created_at DESC").page(params[:page])
     render json: @trips
   end
 
@@ -48,7 +48,7 @@ class TripsController < ApplicationController
       begin
         # ap "token : #{params[:token]}"
         # ap User.new.hmac_secret
-        @dtoken = JWT.decode params[:token], User.new.hmac_secret, true, { :algorithm => 'HS256' }
+        @dtoken = JWT.decode params[:token], User.hmac_secret, true, { :algorithm => 'HS256' }
         # ap "id : #{@dtoken[0]["id"]}"
       rescue JWT::ExpiredSignature
         # ap "expired date!"
