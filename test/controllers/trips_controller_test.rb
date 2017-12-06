@@ -12,7 +12,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create trip" do
     assert_difference('Trip.count') do
-      post trips_url, params: { trip: { end: @trip.end, region: @trip.region, start: @trip.start, title: @trip.title } }, as: :json
+      post trips_url, params: { trip: { description: @trip.description, end: @trip.end, region: @trip.region, start: @trip.start, title: @trip.title, user_id: @trip.user_id } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class TripsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update trip" do
-    patch trip_url(@trip), params: { trip: { end: @trip.end, region: @trip.region, start: @trip.start, title: @trip.title } }, as: :json
+    patch trip_url(@trip), params: { trip: { description: @trip.description, end: @trip.end, region: @trip.region, start: @trip.start, title: @trip.title, user_id: @trip.user_id } }, as: :json
     assert_response 200
   end
 

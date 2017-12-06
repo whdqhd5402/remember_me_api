@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     arel (7.1.4)
     awesome_print (1.8.0)
+    bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.1.0)
     concurrent-ruby (1.0.5)
@@ -51,6 +52,18 @@ GEM
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     jwt (2.1.0)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -123,8 +136,10 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  bcrypt (~> 3.1.7)
   byebug
   jwt
+  kaminari
   listen (~> 3.0.5)
   puma (~> 3.0)
   rails (~> 5.0.6)

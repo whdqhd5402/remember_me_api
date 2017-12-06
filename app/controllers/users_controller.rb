@@ -1,53 +1,72 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:signin, :signout]
 
-  # GET /users
   def index
     @users = User.all
-
     render json: @users
   end
 
-  # GET /users/1
-  def show
-    render json: @user
+  def facebook_signin
+
   end
 
-  # POST /users
-  def create
-    @user = User.new(user_params)
+  def google_signin
 
-    ap user_params
+  end
 
+  def signin
+    # @p = params.require(:user).permit(:email, :password)
+#     hmac_secret = 'ccad3cb540896710d8357863052b63acbe02c4facacd88ea5667143f816abd2ccd9ae4d31090040bc9703027d352f72247095c1f
+# d779bbb2259b0fadcb61b0df'
+
+    ap params[:email]
+    ap params[:password]
+    if @user.authenticate(params[:password])
+      data = { :id => @user.id, :exp => Time.now.to_i + 30*86400 } # about 3 month
+      # ap User.new.hmac_secret
+      @token = JWT.encode data, User.new.hmac_secret, 'HS256'
+      # ap @token
+
+      # @dtoken = JWT.decode @token, hmac_secret, true, {:algorithm => 'HS256'}
+      # ap "id : #{@dtoken[0]["id"]}"
+
+      render json: @token, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  def signup
+    # ap params[:name]
+    # ap params[:email]
+    # ap params[:password]
+    # ap params[:password_confirmation]
+
+    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1
-  def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
+  def signout
 
-  # DELETE /users/1
-  def destroy
-    @user.destroy
+    if @user.update(token: nil)
+      render nothing: true
+    else
+      render @user.errors, status: :unprocessable_entity
+    end
+
+    # unless @user.token.nil?
+    #   render json: @user.token, status: :accepted
+    # else
+    #   render json: @user.errors, status: :unprocessable_entity
+    # end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:email, :name, :password, :sign_in_count)
+      @user = User.find_by(email: params[:email])
     end
 end

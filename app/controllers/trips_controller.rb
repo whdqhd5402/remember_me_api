@@ -1,10 +1,10 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :update, :destroy]
-
+  before_action :is_valid?
   # GET /trips
   def index
-    @trips = Trip.all
-
+    # @trips = Trip.all
+    @trips = Trip.order("created_at DESC").page
     render json: @trips
   end
 
@@ -44,8 +44,20 @@ class TripsController < ApplicationController
       @trip = Trip.find(params[:id])
     end
 
+    def is_valid?
+      begin
+        # ap "token : #{params[:token]}"
+        # ap User.new.hmac_secret
+        @dtoken = JWT.decode params[:token], User.new.hmac_secret, true, { :algorithm => 'HS256' }
+        # ap "id : #{@dtoken[0]["id"]}"
+      rescue JWT::ExpiredSignature
+        # ap "expired date!"
+        render json: @dtoken.errors, status: :unprocessable_entity
+      end
+    end
+
     # Only allow a trusted parameter "white list" through.
     def trip_params
-      params.require(:trip).permit(:title, :region, :start, :end)
+      params.require(:trip).permit(:title, :description, :region, :start, :end, :user_id)
     end
 end
