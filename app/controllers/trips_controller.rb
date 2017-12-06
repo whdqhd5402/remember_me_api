@@ -46,9 +46,8 @@ class TripsController < ApplicationController
 
     def is_valid?
       begin
-        # ap "token : #{params[:token]}"
-        # ap User.new.hmac_secret
-        @dtoken = JWT.decode params[:token], User.hmac_secret, true, { :algorithm => 'HS256' }
+        # @dtoken = JWT.decode params[:token], User.hmac_secret, true, { :algorithm => 'HS256' }
+        @dtoken = JsonWebToken.decode(params[:token])
         # ap "id : #{@dtoken[0]["id"]}"
       rescue JWT::ExpiredSignature
         # ap "expired date!"
