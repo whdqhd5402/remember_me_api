@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subseq: 1
+  name: MyString
+  destination: MyString
+  memo: MyText
+  start: 2017-12-07 16:21:48
+  end: 2017-12-07 16:21:48
+  day: one
+
+two:
+  subseq: 1
+  name: MyString
+  destination: MyString
+  memo: MyText
+  start: 2017-12-07 16:21:48
+  end: 2017-12-07 16:21:48
+  day: two

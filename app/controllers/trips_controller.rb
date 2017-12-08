@@ -1,10 +1,14 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :update, :destroy]
-  before_action :is_valid?
   # GET /trips
   def index
-    # @trips = Trip.all
-    @trips = Trip.order("created_at DESC").page(params[:page])
+    @trips = @user.trips
+    render json: @trips
+  end
+
+  # GET /trips/page/1
+  def page
+    @trips = @user.trips.order("created_at DESC").page(params[:page])
     render json: @trips
   end
 
@@ -15,10 +19,10 @@ class TripsController < ApplicationController
 
   # POST /trips
   def create
-    @trip = Trip.new(trip_params)
+    @trip = @user.trips.new(trip_params)
 
     if @trip.save
-      render json: @trip, status: :created, location: @trip
+      render json: @trip, status: :created
     else
       render json: @trip.errors, status: :unprocessable_entity
     end
@@ -27,7 +31,7 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   def update
     if @trip.update(trip_params)
-      render json: @trip
+      render json: @trip, status: :no_content
     else
       render json: @trip.errors, status: :unprocessable_entity
     end
@@ -36,27 +40,17 @@ class TripsController < ApplicationController
   # DELETE /trips/1
   def destroy
     @trip.destroy
+    render :nothing, status: :no_content
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_trip
-      @trip = Trip.find(params[:id])
-    end
-
-    def is_valid?
-      begin
-        # @dtoken = JWT.decode params[:token], User.hmac_secret, true, { :algorithm => 'HS256' }
-        @dtoken = JsonWebToken.decode(params[:token])
-        # ap "id : #{@dtoken[0]["id"]}"
-      rescue JWT::ExpiredSignature
-        # ap "expired date!"
-        render json: @dtoken.errors, status: :unprocessable_entity
-      end
+      @trip = Trip.find(params[:tid])
     end
 
     # Only allow a trusted parameter "white list" through.
     def trip_params
-      params.require(:trip).permit(:title, :description, :region, :start, :end, :user_id)
+      params.require(:trip).permit(:title, :description, :region, :start, :end)
     end
 end

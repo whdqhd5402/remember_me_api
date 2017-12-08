@@ -1,5 +1,6 @@
 class Trip < ApplicationRecord
   belongs_to :user
-
-  paginates_per 6
+  has_many :days
+  # defualt paginates_per 25
+  paginates_per 10
 end

@@ -6,20 +6,10 @@ class UsersController < ApplicationController
     render json: @users
   end
 
-  def facebook_signin
-
-  end
-
-  def google_signin
-
-  end
-
   def signin
     user_params = params.require(:user).permit(:email, :password)
+
     @user = User.find_by(email: user_params[:email])
-    ap @user
-    ap params[:user][:email]
-    ap params[:user][:password]
     if @user.authenticate(user_params[:password])
       data = { :id => @user.id, :exp => Time.now.to_i + 30*86400 } # about 3 month
       @token = JsonWebToken.encode(data)

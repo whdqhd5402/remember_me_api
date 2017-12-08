@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  seq: MyString
+  alias: MyString
+  trip: one
+
+two:
+  seq: MyString
+  alias: MyString
+  trip: two

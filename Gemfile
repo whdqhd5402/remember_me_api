@@ -7,8 +7,13 @@ end
 
 # gem 'devise'
 gem 'jwt'
-
 gem 'kaminari'
+
+gem 'carrierwave', '~> 1.0'
+gem 'mini_magick'
+# gem 'fog-aws'
+
+gem 'cancancan'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.6'
@@ -39,7 +44,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # gem 'rails_db'
+  # gem 'rails_db' # 사용 할 수 없다. view가 필요하기 때문에
   gem 'awesome_print'
 end
 
