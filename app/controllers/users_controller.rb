@@ -20,12 +20,17 @@ class UsersController < ApplicationController
   end
 
   def signup
-    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
+    user_params = {name: params[:name], email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation]}
+    render :json => "AAA"
+=begin
+    @user = User.new()
+    # @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
     if @user.save
-      render nothing: true, status: :no_content
+      render :nothing, status: :no_content
     else
       render json: @user.errors, status: :unprocessable_entity
     end
+=end
   end
 
   private
