@@ -6,17 +6,17 @@ class SpotsController < ApplicationController
   def index
     @spots = Spot.all
 
-    render json: @spots
+    render json: JsonRes.success('',@spots)
   end
 
   def page
     @spots = @day.spots.order("created_at")#.page(params[:page])
-    render json: @spots
+    render json: JsonRes.success('',@spots)
   end
 
   # GET /spots/1
   def show
-    render json: @spot
+    render json: JsonRes.success('',@spot)
   end
 
   # POST /spots
@@ -24,25 +24,25 @@ class SpotsController < ApplicationController
     @spot = @day.spots.new(spot_params)
 
     if @spot.save
-      render json: @spot, status: :created, location: @spot
+      render json: JsonRes.success('',@spot), status: :created, location: @spot
     else
-      render json: @spot.errors, status: :unprocessable_entity
+      render json: JsonRes.errors('',@spot.errors), status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /spots/1
   def update
     if @spot.update(spot_params)
-      render json: @spot
+      render json: JsonRes.success('',@spot)
     else
-      render json: @spot.errors, status: :unprocessable_entity
+      render json: JsonRes.errors('',@spot.errors), status: :unprocessable_entity
     end
   end
 
   # DELETE /spots/1
   def destroy
     @spot.destroy
-    render :nothing, status: :no_content
+    render json: JsonRes.destroy('spot',params[:sid]), status: :no_content
   end
 
   private

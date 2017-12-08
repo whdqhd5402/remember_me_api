@@ -3,18 +3,18 @@ class TripsController < ApplicationController
   # GET /trips
   def index
     @trips = @user.trips
-    render json: @trips
+    render json: JsonRes.success( 'trips read', @trips )
   end
 
   # GET /trips/page/1
   def page
     @trips = @user.trips.order("created_at DESC").page(params[:page])
-    render json: @trips
+    render json: JsonRes.success("trips #{params[:page]} page read", @trips )
   end
 
   # GET /trips/1
   def show
-    render json: @trip
+    render json: JsonRes.success( "trips #{params[:tid]} read", @trip )
   end
 
   # POST /trips
@@ -22,25 +22,25 @@ class TripsController < ApplicationController
     @trip = @user.trips.new(trip_params)
 
     if @trip.save
-      render json: @trip, status: :created
+      render json: JsonRes.success('', @trip), status: :created
     else
-      render json: @trip.errors, status: :unprocessable_entity
+      render json: JsonRes.errors('', @trip.errors), status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /trips/1
   def update
     if @trip.update(trip_params)
-      render json: @trip, status: :no_content
+      render json: JsonRes.success('', @trip), status: :no_content
     else
-      render json: @trip.errors, status: :unprocessable_entity
+      render json: JsonRes.errors('', @trip.errors), status: :unprocessable_entity
     end
   end
 
   # DELETE /trips/1
   def destroy
     @trip.destroy
-    render :nothing, status: :no_content
+    render json: JsonRes.destroy('trip',params[:tid]), status: :no_content
   end
 
   private

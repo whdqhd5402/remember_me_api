@@ -5,17 +5,17 @@ class DaysController < ApplicationController
   def index
     @days = Day.all
 
-    render json: @days
+    render json: JsonRes.success('',@days)
   end
 
   def page
     @days = @trip.days.order("created_at")#.page(params[:page])
-    render json: @days
+    render json: JsonRes.success('',@days)
   end
 
   # GET /days/1
   def show
-    render json: @day
+    render json: JsonRes.success('',@day)
   end
 
   # POST /days
@@ -23,25 +23,25 @@ class DaysController < ApplicationController
     @day = @trip.days.new(day_params)
 
     if @day.save
-      render json: @day, status: :created, location: @day
+      render json: JsonRes.success('',@day), status: :created, location: @day
     else
-      render json: @day.errors, status: :unprocessable_entity
+      render json: JsonRes.errors('',@day.errors), status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /days/1
   def update
     if @day.update(day_params)
-      render json: @day
+      render json: JsonRes.success('',@day)
     else
-      render json: @day.errors, status: :unprocessable_entity
+      render json: JsonRes.errors('',@day.errors), status: :unprocessable_entity
     end
   end
 
   # DELETE /days/1
   def destroy
     @day.destroy
-    render :nothing, status: :no_content
+    render json: JsonRes.destroy('day',params[:did]), status: :no_content
   end
 
   private
