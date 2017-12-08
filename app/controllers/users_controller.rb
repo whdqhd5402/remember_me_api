@@ -7,11 +7,11 @@ class UsersController < ApplicationController
   end
 
   def signin
-    user_params = params.require(:user).permit(:email, :password)
-
+    user_params = {email: params[:email], password: params[:password]}
     @user = User.find_by(email: user_params[:email])
+
     if @user.authenticate(user_params[:password])
-      data = { :id => @user.id, :exp => Time.now.to_i + 30*86400 } # about 3 month
+      data = { :id => @user.id, :exp => Time.now.to_i + 30*86400 } # about 1 month
       @token = JsonWebToken.encode(data)
       render json: @token, status: :ok
     else
@@ -21,20 +21,15 @@ class UsersController < ApplicationController
 
   def signup
     user_params = {name: params[:name], email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation]}
-    render :json => "AAA"
-=begin
-    @user = User.new()
-    # @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
+
+    @user = User.new(user_params)
     if @user.save
       render :nothing, status: :no_content
     else
       render json: @user.errors, status: :unprocessable_entity
     end
+=begin
+    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
 =end
   end
-
-  private
-    def set_user
-      @user = User.find_by(email: params[:user][:email])
-    end
 end
