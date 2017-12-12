@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171208012715) do
+ActiveRecord::Schema.define(version: 20171212060357) do
 
   create_table "days", force: :cascade do |t|
     t.integer  "seq",        null: false
@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 20171208012715) do
     t.string   "password_digest", default: "", null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.string   "provider"
+    t.string   "uid"
   end
 
 end

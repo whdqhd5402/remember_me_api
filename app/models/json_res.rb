@@ -5,7 +5,7 @@ class JsonRes
   end
 
   def self.success(msg, obj)
-    {msg: msg, obj: obj}
+    {msg: msg, result: obj}
   end
 
   def self.errors(msg, errors)
