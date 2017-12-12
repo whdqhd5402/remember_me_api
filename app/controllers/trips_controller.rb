@@ -3,6 +3,7 @@ class TripsController < ApplicationController
   # GET /trips
   def index
     @trips = @user.trips
+    ap @trips.count
     render json: JsonRes.success( 'trips read', @trips )
   end
 
