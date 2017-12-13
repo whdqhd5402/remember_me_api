@@ -9,7 +9,7 @@ class DaysController < ApplicationController
   end
 
   def page
-    @days = @trip.days.order("created_at")#.page(params[:page])
+    @days = @trip.days.order("created_at").page(params[:page])
     render json: JsonRes.success('',@days)
   end
 
@@ -47,6 +47,7 @@ class DaysController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_other
+      ap @user
       @trip = @user.trips.find(params[:tid])
     end
 
